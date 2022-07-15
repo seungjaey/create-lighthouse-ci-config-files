@@ -1,4 +1,4 @@
-import {map, pipe, split, toArray} from '@fxts/core'
+import {map, pipe, toArray} from '@fxts/core'
 import {getInput, getMultilineInput} from '@actions/core'
 import inputName from '../constants/InputName'
 
@@ -22,9 +22,11 @@ const parseRawInputUrlList = (
 ): UrlList =>
   pipe(
     urlStringList,
-    map(str => split('__SEP__', str)),
+    map(str => {
+      const [label, path] = str.split('__SEP__')
+      return [label, path]
+    }),
     map(splitted => {
-      console.log(splitted)
       const [label, path] = splitted
       const url = urlPrefix ? `${urlPrefix}${path}` : path
       return {
@@ -40,7 +42,6 @@ const parseRawInputUrlList = (
 export default function parseInput(): InputData {
   const urlPrefix = getInput(inputName.URL_PREFIX)
   const rawUrlList = getMultilineInput(inputName.URL_LIST)
-  console.log(rawUrlList)
   return {
     urlPrefix,
     urlList: parseRawInputUrlList(urlPrefix, rawUrlList)

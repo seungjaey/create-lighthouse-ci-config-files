@@ -164,8 +164,10 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core_1 = __nccwpck_require__(4414);
 const core_2 = __nccwpck_require__(2186);
 const InputName_1 = __importDefault(__nccwpck_require__(9386));
-const parseRawInputUrlList = (urlPrefix, urlStringList) => (0, core_1.pipe)(urlStringList, (0, core_1.map)(str => (0, core_1.split)('__SEP__', str)), (0, core_1.map)(splitted => {
-    console.log(splitted);
+const parseRawInputUrlList = (urlPrefix, urlStringList) => (0, core_1.pipe)(urlStringList, (0, core_1.map)(str => {
+    const [label, path] = str.split('__SEP__');
+    return [label, path];
+}), (0, core_1.map)(splitted => {
     const [label, path] = splitted;
     const url = urlPrefix ? `${urlPrefix}${path}` : path;
     return {
@@ -178,7 +180,6 @@ const parseRawInputUrlList = (urlPrefix, urlStringList) => (0, core_1.pipe)(urlS
 function parseInput() {
     const urlPrefix = (0, core_2.getInput)(InputName_1.default.URL_PREFIX);
     const rawUrlList = (0, core_2.getMultilineInput)(InputName_1.default.URL_LIST);
-    console.log(rawUrlList);
     return {
         urlPrefix,
         urlList: parseRawInputUrlList(urlPrefix, rawUrlList)
