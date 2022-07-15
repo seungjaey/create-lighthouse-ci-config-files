@@ -11,6 +11,10 @@ inputs:
     description: 'Test target url list'
 
 outputs:
+  URL_LIST_JSON_STRING:
+    description: 'URL_LIST JSON string'
+  REPORT_DIR_NAME:
+    description: 'Report file dir name'
   MOBILE_CONFIG_FILE_NAME:
     description: 'Mobile form factor config file'
   DESKTOP_CONFIG_FILE_NAME:

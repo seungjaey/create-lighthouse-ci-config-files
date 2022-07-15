@@ -140,6 +140,8 @@ function run() {
                 const [formFactor, fileName] = args;
                 core.setOutput(`${formFactor.toString().toUpperCase()}_CONFIG_FILE_NAME`, fileName);
             }, configFileList);
+            core.setOutput('REPORT_DIR_NAME', '.lighthouse-report');
+            core.setOutput('URL_LIST_JSON_STRING', JSON.stringify(urlList));
         }
         catch (error) {
             if (error instanceof Error)

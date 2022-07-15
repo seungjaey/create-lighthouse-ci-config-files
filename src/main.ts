@@ -39,6 +39,9 @@ async function run(): Promise<void> {
         fileName
       )
     }, configFileList)
+
+    core.setOutput('REPORT_DIR_NAME', '.lighthouse-report')
+    core.setOutput('URL_LIST_JSON_STRING', JSON.stringify(urlList))
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }
