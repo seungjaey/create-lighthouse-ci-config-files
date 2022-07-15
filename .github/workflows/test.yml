@@ -21,4 +21,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: ./
         with:
-          milliseconds: 1000
+          URL_PREFIX: https://hamtolchu.dev
+          URL_LIST: |
+            [상품상세] 싱글 콘텐츠__SEP__/
+            [상품상세] 멀티 콘텐츠__SEP__/about

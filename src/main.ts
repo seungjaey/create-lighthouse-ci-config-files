@@ -1,16 +1,44 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+import {writeFile} from 'fs/promises'
+
+import {pipe, map, pluck, toArray, toAsync, range, each} from '@fxts/core'
+
+import {FormFactorList, FormFactorPreset} from './constants/FormFactor'
+
+import parseInput from './utils/parseInput'
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
+    const input = parseInput()
+    const {urlList} = input
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+    const configFileList = await pipe(
+      range(0, FormFactorList.length),
+      toAsync,
+      map(index => {
+        const formFactor = FormFactorList[index]
+        const preset = FormFactorPreset[formFactor]
+        preset.ci.collect.url = pipe(urlList, pluck('url'), toArray)
+        return [formFactor, preset]
+      }),
+      map(async args => {
+        const [formFactor, preset] = args
+        const fileName = `.lighthouserc.${formFactor}.json`
+        await writeFile(`./${fileName}`, JSON.stringify(preset), {
+          encoding: 'utf8'
+        })
+        return [formFactor, fileName]
+      }),
+      toArray
+    )
 
-    core.setOutput('time', new Date().toTimeString())
+    each(args => {
+      const [formFactor, fileName] = args
+      core.setOutput(
+        `${formFactor.toString().toUpperCase()}_CONFIG_FILE_NAME`,
+        fileName
+      )
+    }, configFileList)
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }
