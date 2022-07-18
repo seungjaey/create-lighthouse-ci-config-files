@@ -38,7 +38,7 @@ const FormFactor: Record<FormFactorName, FormFactorName> = {
 const COLLECT_OPTIONS = {
   method: 'node',
   headful: false,
-  additive: true,
+  additive: false,
   url: [],
   startServerCommand: 'npm run start:dev',
   startServerReadyPattern: 'started server on',
