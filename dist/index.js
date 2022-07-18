@@ -15,14 +15,13 @@ const FormFactor = {
 const COLLECT_OPTIONS = {
     method: 'node',
     headful: false,
-    additive: true,
+    additive: false,
     url: [],
     startServerCommand: 'npm run start:dev',
     startServerReadyPattern: 'started server on',
     isSinglePageApplication: false,
     numberOfRuns: 1,
     settings: {
-        preset: 'desktop',
         chromeFlags: '--disable-dev-shm-usage --no-sandbox'
     }
 };
