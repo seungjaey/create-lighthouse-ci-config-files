@@ -45,7 +45,6 @@ const COLLECT_OPTIONS = {
   isSinglePageApplication: false,
   numberOfRuns: 1,
   settings: {
-    preset: 'desktop',
     chromeFlags: '--disable-dev-shm-usage --no-sandbox'
   }
 }
